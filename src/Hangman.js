@@ -19,14 +19,15 @@ class Hangman extends Component {
   constructor(props) {
     super(props);
     let a = randomWord();
-    this.state = { nWrong: 0, guessed: new Set(), answer: a };
+    this.state = { nWrong: 0, guessed: new Set(), answer: a , hint :{hintclicked : false ,first : "" ,last :""}};
     this.handleGuess = this.handleGuess.bind(this);
     this.reset = this.reset.bind(this);
+    this.hint = this.hint.bind(this);
   }
 
   reset() {
       this.setState({
-        nWrong : 0, guessed : new Set() , answer : randomWord()
+        nWrong : 0, guessed : new Set() , answer : randomWord(), hint : {...this.state.hint , hintclicked : false}
       })
   }
   /** guessedWord: show current-state of word:
@@ -64,6 +65,16 @@ class Hangman extends Component {
     ));
   }
 
+  hint(){
+    const ans = this.state.answer;
+    // console.log(ans[0]);
+    // console.log(ans[ans.length -1])
+    this.setState({
+      hint : {first : ans[0] ,last :ans[ans.length - 1],hintclicked:true}
+    })
+
+    console.log(this.state.hint);
+  }
 
   /** render: render game */
   render() {
@@ -85,11 +96,19 @@ class Hangman extends Component {
         ? this.state.answer
         :this.guessedWord()}</p>
         <p className='Hangman-btns'>{
-        this.state.nWrong < this.props.maxWrong
+        this.state.nWrong < this.props.maxWrong &&(!gamewin)
         ? this.generateButtons()
         : result
         }</p>
         <button id='reset' onClick={this.reset}>Reset</button>
+        {this.state.hint.hintclicked 
+        ? <h4>
+            First Word : {this.state.hint.first} --
+            Last Word : {this.state.hint.last}
+          </h4>
+        :<button id='reset' onClick={this.hint}>Hint</button> 
+        }
+        <p></p>
       </div>
     );
   }

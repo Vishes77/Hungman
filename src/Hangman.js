@@ -100,15 +100,17 @@ class Hangman extends Component {
         ? this.generateButtons()
         : result
         }</p>
-        <button id='reset' onClick={this.reset}>Reset</button>
+        <div id='reset'>
+        <button  id='hint' onClick={this.reset}>Reset</button>
         {this.state.hint.hintclicked 
         ? <h4>
             First Word : {this.state.hint.first} --
             Last Word : {this.state.hint.last}
           </h4>
-        :<button id='reset' onClick={this.hint}>Hint</button> 
+        :<button id='hint' onClick={this.hint}>Hint</button> 
         }
-        <p></p>
+        </div>
+        
       </div>
     );
   }
